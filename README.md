@@ -25,11 +25,9 @@ Para executar o projeto:
 
 ## Recursos
 
-1. Semente
-2. Lote
-3. Plantio
-
-> Nota do Professor: Apenas foram incluídos neste exemplo as rotas para sementes.
+1. Usuário
+2. Medicamentos 
+3. Notas
 
 ## Regras de Negócio
 
