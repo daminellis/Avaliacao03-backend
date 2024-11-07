@@ -1,19 +1,19 @@
-# Avaliação N3 - Documentação
+# Avaliação N3 - Documentação :page_facing_up:
 
 Este projeto é focado no gerenciamento pessoal de medicamentos, com o objetivo de melhorar a organização, saúde e bem-estar dos usuários. A plataforma permite o controle de três áreas principais para facilitar a administração de medicamentos:
 
-### 1. Perfil do Usuário
-- A criação de um perfil que armazena dados pessoais e informações relevantes sobre o usuário, como condições de saúde e histórico de medicamentos.
+#### 1. Perfil do Usuário
+>- A criação de um perfil que armazena dados pessoais e informações relevantes sobre o usuário, como condições de saúde e histórico de medicamentos.
 
-### 2. Estoque de Medicamentos
-- Um sistema de cadastro e monitoramento do estoque de medicamentos, onde o usuário pode registrar medicamentos prescritos por médicos e/ou de uso contínuo pessoal. O sistema acompanha quantidades, datas de validade, dosagens e categorias dos remédios, garantindo que nunca falte um medicamento essencial.
+#### 2. Estoque de Medicamentos
+>- Um sistema de cadastro e monitoramento do estoque de medicamentos, onde o usuário pode registrar medicamentos prescritos por médicos e/ou de uso contínuo pessoal. O sistema acompanha quantidades, datas de validade, dosagens e categorias dos remédios, garantindo que nunca falte um medicamento essencial.
 
-### 3. Notas Personalizadas
-- O sistema permite criar notas para agendamentos personalizados para alertar o usuário sobre o horário de cada medicação, além de atualizar o estoque automaticamente a cada dose tomada.
+#### 3. Notas Personalizadas
+>- O sistema permite criar notas para agendamentos personalizados para alertar o usuário sobre o horário de cada medicação, além de atualizar o estoque automaticamente a cada dose tomada.
 
 A aplicação é ideal para pessoas com rotinas agitadas, idosos ou qualquer pessoa que precise de um apoio adicional para manter a disciplina no uso de medicações. Ao reduzir o risco de esquecimento e melhorar o controle do estoque, o sistema contribui para um bem-estar maior, promovendo saúde e segurança com um acompanhamento preciso das medicações necessárias.
 
-## Executando
+## Executando :hammer:
 
 Para executar o projeto:
 
@@ -21,7 +21,7 @@ Para executar o projeto:
 3. Rode o comando `docker compose up -d` na raiz do projeto.
 
 ## Tecnologias Utilizadas
-[![My Skills](https://skillicons.dev/icons?i=py,flask,docker,mysql)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=py,flask,docker,mysql&theme=light)](https://skillicons.dev)
 
 ## Recursos
 
@@ -29,15 +29,30 @@ Para executar o projeto:
 2. Medicamentos 
 3. Notas
 
-## Regras de Negócio
+## Regras de Negócio :briefcase:
 
-* As sementes com data de validade expirada não podem ser registradas em novos plantios;
-* O tempo de germinação de uma semente deve ser entre 1 e 999 dias;
-* A data de expiração da semente não pode estar no passado no momento do cadastro;
-* Os tipos de semente devem ser: `Fruta`, `Legume` ou `Cereal`.
-* As operações de criação e atualização devem validar a quantidade mínima de sementes necessária para um plantio;
+#### 1. Cadastro de Usuário
+> * Cada usuário deve ter um perfil único no sistema.
+> * O usuário precisa preencher informações básicas, como nome, idade e condições de saúde relevantes, no cadastro.
 
-## Rotas
+#### 2. Controle de Estoque de Medicamentos
+> * O sistema deve permitir o cadastro de medicamentos com nome, descrição, tipo e quantidade inicial.
+> * Ao registrar uma nova dose tomada, a quantidade no estoque deve ser atualizada automaticamente.
+> * Quando a quantidade de um medicamento atingir um valor mínimo (configurável), o sistema deve enviar uma notificação de alerta para o usuário.
+
+#### 3. Lembretes de Medicamento
+> * O sistema deve enviar notificações no horário configurado para lembrar o usuário de tomar a medicação.
+> * Se o usuário não marcar a dose como tomada até um certo tempo após o lembrete, o sistema pode enviar uma notificação de atraso.
+
+#### 4. Validade dos Medicamentos
+> * Ao cadastrar um medicamento, o usuário deve inserir a data de validade do produto.
+> * O sistema deve alertar o usuário quando o medicamento estiver próximo de vencer.
+
+#### 5. Controle de Quantidade por Dose
+> * Ao criar um lembrete, o usuário deve definir a quantidade de medicamento a ser tomada em cada dose.
+> * Cada vez que uma dose é marcada como tomada, essa quantidade deve ser subtraída automaticamente do estoque.
+
+## Rotas :milky_way:
 
 ### Sementes
 
