@@ -1,7 +1,8 @@
 from enums.meds_type import MedsType
+from datetime import date
 
 class MedsStockDTO:
-    def __init__(self, meds_name: str, meds_qtd: int, meds_val: str, mds_desc: str, meds_type: MedsType, person_id: int):
+    def __init__(self, meds_name: str, meds_qtd: int, meds_val: date, mds_desc: str, meds_type: MedsType, person_id: int):
         self.meds_name = meds_name
         self.meds_qtd = meds_qtd
         self.meds_val = meds_val
