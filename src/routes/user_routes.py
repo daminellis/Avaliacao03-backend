@@ -18,18 +18,18 @@ def users(app):
     def get_person_by_id_route(person_id):
         return get_user_by_id(person_id)
 
-    @app.route('/create/user', methods=['POST'])
+    @app.route('/user', methods=['POST'])
     def create_person_route():
         data = request.get_json()
         person_dto = PersonDTO(data['first_name'], data['last_name'], data['age'])
         return create_user(person_dto)
 
-    @app.route('/update/users/<int:person_id>', methods=['PUT'])
+    @app.route('/users/<int:person_id>', methods=['PUT'])
     def update_person_route(person_id):
         data = request.get_json()
         update_person_dto = UpdatePersonDTO(data['first_name'], data['last_name'], data['age'])
         return update_user(person_id, update_person_dto)
 
-    @app.route('/delete/users/<int:person_id>', methods=['DELETE'])
+    @app.route('/users/<int:person_id>', methods=['DELETE'])
     def delete_person_route(person_id):
         return delete_user(person_id)
