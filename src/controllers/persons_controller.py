@@ -59,7 +59,11 @@ def create_person(person_dto: PersonDTO):
     try:
         with db.engine.connect() as connection:
             sql = text('INSERT INTO persons (First_Name, Last_Name, Age) VALUES (:First_Name, :Last_Name, :Age)')
-            connection.execute(sql, First_Name=person_dto.first_name, Last_Name=person_dto.last_name, Age=person_dto.age)
+            connection.execute(sql, {
+                'First_Name': person_dto.First_Name,
+                'Last_Name': person_dto.Last_Name,
+                'Age': person_dto.Age
+            })   
 
         return jsonify({
             "success": True,

@@ -1,5 +1,5 @@
 class PersonDTO:
-    def __init__(self, first_name: str, last_name: str, age: int):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.age = age
+    def __init__(self, First_Name: str, Last_Name: str, Age: int):
+        self.First_Name = First_Name
+        self.Last_Name = Last_Name
+        self.Age = Age
