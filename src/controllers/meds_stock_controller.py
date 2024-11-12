@@ -58,7 +58,14 @@ def create_meds_stock(meds_stock_dto: MedsStockDTO):
     try:
         with db.engine.connect() as connection:
             sql = text('INSERT INTO meds_stock (Meds_Name, Meds_Qtd, Meds_val, Meds_Desc, Meds_Type, Required_Person) VALUES (:meds_name, :meds_qtd, :meds_val, :mds_desc, :meds_type, :person_id)')
-            connection.execute(sql, meds_name=meds_stock_dto.meds_name, meds_qtd=meds_stock_dto.meds_qtd, meds_val=meds_stock_dto.meds_val, mds_desc=meds_stock_dto.mds_desc, meds_type=meds_stock_dto.meds_type, person_id=meds_stock_dto.person_id)
+            connection.execute(sql, {
+                "meds_name": meds_stock_dto.meds_name,
+                "meds_qtd": meds_stock_dto.meds_qtd,
+                "meds_val": meds_stock_dto.meds_val,
+                "mds_desc": meds_stock_dto.mds_desc,
+                "meds_type": meds_stock_dto.meds_type,
+                "person_id": meds_stock_dto.person_id
+            })
             return jsonify({
                 "success": True,
                 "message": "Medicamento adicionado ao estoque"
@@ -69,11 +76,19 @@ def create_meds_stock(meds_stock_dto: MedsStockDTO):
         return jsonify({'error': error}), 500
 
 
-def update_meds_stock(meds_stock_id, meds_stock_dto: UpdateMedsStockDTO):
+def update_meds_stock(id, meds_stock_dto: UpdateMedsStockDTO):
     try:
         with db.engine.connect() as connection:
             sql = text('UPDATE meds_stock SET Meds_Name = :meds_name, Meds_Qtd = :meds_qtd, Meds_val = :meds_val, Meds_Desc = :mds_desc, Meds_Type = :meds_type, Required_Person = :person_id WHERE id = :meds_stock_id')
-            connection.execute(sql, meds_name=meds_stock_dto.meds_name, meds_qtd=meds_stock_dto.meds_qtd, meds_val=meds_stock_dto.meds_val, mds_desc=meds_stock_dto.mds_desc, meds_type=meds_stock_dto.meds_type, person_id=meds_stock_dto.person_id, meds_stock_id=meds_stock_id)
+            connection.execute(sql, {
+                "meds_stock_id": id,
+                "meds_name": meds_stock_dto.meds_name,
+                "meds_qtd": meds_stock_dto.meds_qtd,
+                "meds_val": meds_stock_dto.meds_val,
+                "mds_desc": meds_stock_dto.mds_desc,
+                "meds_type": meds_stock_dto.meds_type,
+                "person_id": meds_stock_dto.person_id
+            })
             return jsonify({
                 "success": True,
                 "message": "Medicamento atualizado"

@@ -56,7 +56,21 @@ def get_notebook_by_id(notebook_id):
 def create_notebook(notebook_dto: NotebookDTO):
     try:
         sql = text("INSERT INTO notebooks (Note_Title, Med_Name, Med_Desc, Med_Method, Med_Type, Med_Freq, Qtd_Taken, Qtd_Total, Init_Schedule, End_Schedule, status, Obs, Person_Id) VALUES (:Note_Title, :Med_Name, :Med_Desc, :Med_Method, :Med_Type, :Med_Freq, :Qtd_Taken, :Qtd_Total, :Init_Schedule, :End_Schedule, :status, :Obs, :Person_Id)")
-        db.engine.execute(sql, title=notebook_dto.title, content=notebook_dto.content)
+        db.engine.execute(sql, {
+            "Note_Title": notebook_dto.title,
+            "Med_Name": notebook_dto.med_name,
+            "Med_Desc": notebook_dto.description,
+            "Med_Method": notebook_dto.method,
+            "Med_Type": notebook_dto.med_type,
+            "Med_Freq": notebook_dto.med_freq,
+            "Qtd_Taken": notebook_dto.qtd_taken,
+            "Qtd_Total": notebook_dto.qtd_total,
+            "Init_Schedule": notebook_dto.init_schedule,
+            "End_Schedule": notebook_dto.end_schedule,
+            "status": notebook_dto.status,
+            "Obs": notebook_dto.obs,
+            "Person_Id": notebook_dto.person_id
+        })
         return jsonify({
             "success": True,
             "message": "Nota criada com sucesso"
@@ -70,7 +84,22 @@ def create_notebook(notebook_dto: NotebookDTO):
 def update_notebook(id, notebook_dto: UpdateNotebookDTO):
     try:
         sql = text("UPDATE notebooks SET Note_Title = :Note_Title, Med_Name = :Med_Name, Med_Desc = :Med_Desc, Med_Method = :Med_Method, Med_Type = :Med_Type, Med_Freq = :Med_Freq, Qtd_Taken = :Qtd_Taken, Qtd_Total = :Qtd_Total, Init_Schedule = :Init_Schedule, End_Schedule = :End_Schedule, status = :status, Obs = :Obs, Person_Id = :Person_Id WHERE id = :id")
-        db.engine.execute(sql, Note_Title=notebook_dto.Note_Title, Med_Name=notebook_dto.Med_Name, Med_Desc=notebook_dto.Med_Desc, Med_Method=notebook_dto.Med_Method, Med_Type=notebook_dto.Med_Type, Med_Freq=notebook_dto.Med_Freq, Qtd_Taken=notebook_dto.Qtd_Taken, Qtd_Total=notebook_dto.Qtd_Total, Init_Schedule=notebook_dto.Init_Schedule, End_Schedule=notebook_dto.End_Schedule, status=notebook_dto.status, Obs=notebook_dto.Obs, Person_Id=notebook_dto.Person_Id, id=id)
+        db.engine.execute(sql, {
+            "id": id,
+            "Note_Title": notebook_dto.title,
+            "Med_Name": notebook_dto.med_name,
+            "Med_Desc": notebook_dto.description,
+            "Med_Method": notebook_dto.method,
+            "Med_Type": notebook_dto.med_type,
+            "Med_Freq": notebook_dto.med_freq,
+            "Qtd_Taken": notebook_dto.qtd_taken,
+            "Qtd_Total": notebook_dto.qtd_total,
+            "Init_Schedule": notebook_dto.init_schedule,
+            "End_Schedule": notebook_dto.end_schedule,
+            "status": notebook_dto.status,
+            "Obs": notebook_dto.obs,
+            "Person_Id": notebook_dto.person_id
+        })
         return jsonify({
             "success": True,
             "message": "Nota atualizada com sucesso"

@@ -3,9 +3,9 @@ from enums.meds_type  import MedsType
 from datetime import datetime
 
 class NotebookDTO:
-    def __init__(self, title: str, note_name: str, description: str, method: MedMethod, med_type: MedsType, med_freq: str, qtd_taken: int, qtd_total: int, init_schedule: datetime, end_schedule: datetime, status: Status, obs: str, person_id: int):
+    def __init__(self, title: str, med_name: str, description: str, method: MedMethod, med_type: MedsType, med_freq: str, qtd_taken: int, qtd_total: int, init_schedule: datetime, end_schedule: datetime, status: Status, obs: str, person_id: int):
         self.title = title
-        self.note_name = note_name
+        self.med_name = med_name
         self.description = description
         self.method = method
         self.med_type = med_type

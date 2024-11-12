@@ -60,9 +60,9 @@ def create_person(person_dto: PersonDTO):
         with db.engine.connect() as connection:
             sql = text('INSERT INTO persons (First_Name, Last_Name, Age) VALUES (:First_Name, :Last_Name, :Age)')
             connection.execute(sql, {
-                'First_Name': person_dto.First_Name,
-                'Last_Name': person_dto.Last_Name,
-                'Age': person_dto.Age
+                'First_Name': person_dto.first_name,
+                'Last_Name': person_dto.last_name,
+                'Age': person_dto.age
             })   
 
         return jsonify({
@@ -75,11 +75,16 @@ def create_person(person_dto: PersonDTO):
         return jsonify({'error': error}), 500
     
 
-def update_person(person_id, person_dto: UpdatePersonDTO):
+def update_person(id, person_dto: UpdatePersonDTO):
     try:
         with db.engine.connect() as connection:
             sql = text('UPDATE persons SET First_Name = :First_Name, Last_Name = :Last_Name, Age = :Age WHERE id = :person_id')
-            connection.execute(sql, First_Name=person_dto.first_name, Last_Name=person_dto.last_name, Age=person_dto.age, person_id=person_id)
+            connection.execute(sql, {
+                'person_id': id,
+                'First_Name': person_dto.first_name,
+                'Last_Name': person_dto.last_name,
+                'Age': person_dto.age
+            })
 
         return jsonify({
             "success": True,
