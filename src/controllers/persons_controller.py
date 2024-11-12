@@ -24,7 +24,7 @@ def get_all_persons():
         else:
             return jsonify({
                 "success": False,
-                "error": "Usuarios não encontradozs"
+                "error": "Usuários não encontradozs"
             }), 404
 
     except SQLAlchemyError as e:
@@ -35,8 +35,8 @@ def get_all_persons():
 def get_person_by_id(person_id):
     try:
         with db.engine.connect() as connection:
-            sql = text('SELECT * FROM persons WHERE id = :person_id')
-            result = connection.execute(sql, person_id=person_id)
+            sql = text('SELECT * FROM persons WHERE person_id = :person_id')
+            result = connection.execute(sql, {'person_id': person_id})
             person = result.fetchone()
 
         if person:
@@ -47,7 +47,7 @@ def get_person_by_id(person_id):
         else:
             return jsonify({
                 "success": False,
-                "error": "Usuario não encontrado"
+                "error": "Usuário não encontrado"
             }), 404
 
     except SQLAlchemyError as e:
@@ -63,11 +63,12 @@ def create_person(person_dto: PersonDTO):
                 'First_Name': person_dto.first_name,
                 'Last_Name': person_dto.last_name,
                 'Age': person_dto.age
-            })   
+            })
+            connection.commit()
 
         return jsonify({
             "success": True,
-            "message": "Usuario criado com sucesso"
+            "message": "Usuário criado com sucesso"
         }), 201
 
     except SQLAlchemyError as e:
@@ -75,35 +76,38 @@ def create_person(person_dto: PersonDTO):
         return jsonify({'error': error}), 500
     
 
-def update_person(id, person_dto: UpdatePersonDTO):
+def update_person(person_id, person_dto: UpdatePersonDTO):
     try:
         with db.engine.connect() as connection:
-            sql = text('UPDATE persons SET First_Name = :First_Name, Last_Name = :Last_Name, Age = :Age WHERE id = :person_id')
+            sql = text('UPDATE persons SET First_Name = :First_Name, Last_Name = :Last_Name, Age = :Age WHERE person_id = :person_id')
             connection.execute(sql, {
-                'person_id': id,
+                'person_id': person_id,
                 'First_Name': person_dto.first_name,
                 'Last_Name': person_dto.last_name,
                 'Age': person_dto.age
             })
+            connection.commit()
 
         return jsonify({
             "success": True,
-            "message": "Usuario atualizado com sucesso"
+            "message": "Usuário atualizado com sucesso"
         }), 200
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         return jsonify({'error': error}), 500
     
+    
 def delete_person(person_id):
     try:
         with db.engine.connect() as connection:
-            sql = text('DELETE FROM persons WHERE id = :person_id')
-            connection.execute(sql, person_id=person_id)
+            sql = text('DELETE FROM persons WHERE person_id = :person_id')
+            connection.execute(sql, {'person_id':person_id})
+            connection.commit()
 
         return jsonify({
             "success": True,
-            "message": "Usuario deletado com sucesso"
+            "message": "Usuário deletado com sucesso"
         }), 200
 
     except SQLAlchemyError as e:
