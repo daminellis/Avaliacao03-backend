@@ -1,8 +1,9 @@
-from controllers.notebook_controller import get_all_notebooks
-from controllers.notebook_controller import get_notebook_by_id
-from controllers.notebook_controller import create_notebook
-from controllers.notebook_controller import update_notebook
-from controllers.notebook_controller import delete_notebook
+from service.notebook_service import get_all_notebooks
+from service.notebook_service import get_notebook_by_id
+from service.notebook_service import create_notebook
+from service.notebook_service import update_notebook
+from service.notebook_service import delete_notebook
+
 from flask import request
 from flask_jwt_extended import jwt_required
 

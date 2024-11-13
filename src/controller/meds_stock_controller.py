@@ -1,8 +1,9 @@
-from controllers.meds_stock_controller import get_all_meds_stock
-from controllers.meds_stock_controller import get_meds_stock_by_id
-from controllers.meds_stock_controller import create_meds_stock
-from controllers.meds_stock_controller import update_meds_stock
-from controllers.meds_stock_controller import delete_meds_stock
+from service.meds_stock_service import get_all_meds_stock
+from service.meds_stock_service import get_meds_stock_by_id
+from service.meds_stock_service import create_meds_stock
+from service.meds_stock_service import update_meds_stock
+from service.meds_stock_service import delete_meds_stock
+
 from flask import request
 from flask_jwt_extended import jwt_required
 

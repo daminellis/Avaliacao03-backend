@@ -1,8 +1,9 @@
-from controllers.user_controller import get_all_users
-from controllers.user_controller import get_user_by_id
-from controllers.user_controller import create_user
-from controllers.user_controller import update_user
-from controllers.user_controller import delete_user
+from service.user_service import get_all_users
+from service.user_service import get_user_by_id
+from service.user_service import create_user
+from service.user_service import update_user
+from service.user_service import delete_user
+
 from flask import request
 from flask_jwt_extended import jwt_required
 
