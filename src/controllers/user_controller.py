@@ -4,17 +4,17 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import text
 
 #DTOS
-from dtos.person.create_person_dto import PersonDTO
-from dtos.person.update_person_dto import UpdatePersonDTO
+from dtos.user.create_user_dto import UserDTO
+from dtos.user.update_user_dto import UpdateUserDTO
 
 def get_all_users():
     try:
         with db.engine.connect() as connection:
-            sql = text('SELECT * FROM persons')
+            sql = text('SELECT * FROM user')
             result = connection.execute(sql)
-            service_orders = result.fetchall()
+            users = result.fetchall()
 
-        service_orders_list = [dict(row._mapping) for row in service_orders]
+        service_orders_list = [dict(row._mapping) for row in users]
 
         if service_orders_list:
             return jsonify({
@@ -32,17 +32,17 @@ def get_all_users():
         return jsonify({'error': error}), 500
 
 
-def get_user_by_id(person_id):
+def get_user_by_id(id):
     try:
         with db.engine.connect() as connection:
-            sql = text('SELECT * FROM persons WHERE person_id = :person_id')
-            result = connection.execute(sql, {'person_id': person_id})
-            person = result.fetchone()
+            sql = text('SELECT * FROM user WHERE id = :id')
+            result = connection.execute(sql, {'id': id})
+            user = result.fetchone()
 
-        if person:
+        if user:
             return jsonify({
                 "success": True,
-                "person": dict(person._mapping)
+                "user": dict(user._mapping)
             }), 200
         else:
             return jsonify({
@@ -55,14 +55,15 @@ def get_user_by_id(person_id):
         return jsonify({'error': error}), 500
     
     
-def create_user(person_dto: PersonDTO):
+def create_user(create_user_dto: UserDTO):
     try:
         with db.engine.connect() as connection:
-            sql = text('INSERT INTO persons (First_Name, Last_Name, Age) VALUES (:First_Name, :Last_Name, :Age)')
+            sql = text('INSERT INTO user (first_name, last_name, age, password) VALUES (:first_name, :last_name, :age, :password)')
             connection.execute(sql, {
-                'First_Name': person_dto.first_name,
-                'Last_Name': person_dto.last_name,
-                'Age': person_dto.age
+                'first_name': create_user_dto.first_name,
+                'last_name': create_user_dto.last_name,
+                'age': create_user_dto.age,
+                'password': create_user_dto.password
             })
             connection.commit()
 
@@ -76,16 +77,17 @@ def create_user(person_dto: PersonDTO):
         return jsonify({'error': error}), 500
     
 
-def update_user(person_id, person_dto: UpdatePersonDTO):
+def update_user(id, update_user_dto: UpdateUserDTO):
     try:
         with db.engine.connect() as connection:
 
-            sql = text('UPDATE persons SET First_Name = :First_Name, Last_Name = :Last_Name, Age = :Age WHERE person_id = :person_id')
+            sql = text('UPDATE user SET first_name = :first_name, last_name = :last_name, age = :age, password = :password WHERE id = :id')
             result= connection.execute(sql, {
-                'person_id': person_id,
-                'First_Name': person_dto.first_name,
-                'Last_Name': person_dto.last_name,
-                'Age': person_dto.age
+                'id': id,
+                'first_name': update_user_dto.first_name,
+                'last_name': update_user_dto.last_name,
+                'age': update_user_dto.age,
+                'password': update_user_dto.password
             })
 
             if result.rowcount == 0:
@@ -106,12 +108,12 @@ def update_user(person_id, person_dto: UpdatePersonDTO):
         return jsonify({'error': error}), 500
     
     
-def delete_user(person_id):
+def delete_user(id):
     try:
         with db.engine.connect() as connection:
 
-            sql = text('DELETE FROM persons WHERE person_id = :person_id')
-            result= connection.execute(sql, {'person_id':person_id})
+            sql = text('DELETE FROM user WHERE id = :id')
+            result= connection.execute(sql, {'id':id})
 
             if result.rowcount == 0:
                 return jsonify({

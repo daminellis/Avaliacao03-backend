@@ -10,11 +10,11 @@ from dtos.meds_stock.update_meds_stock_dto import UpdateMedsStockDTO
 def get_all_meds_stock():
     try:
         with db.engine.connect() as connection:
-            sql = text('SELECT * FROM meds_stock')
+            sql = text('SELECT * FROM med_stock')
             result = connection.execute(sql)
-            meds_stock = result.fetchall()
+            stock = result.fetchall()
 
-        meds_stock_list = [dict(row._mapping) for row in meds_stock]
+        meds_stock_list = [dict(row._mapping) for row in stock]
 
         if meds_stock_list:
             return jsonify({
@@ -31,17 +31,17 @@ def get_all_meds_stock():
         error = str(e.__dict__['orig'])
         return jsonify({'error': error}), 500
     
-def get_meds_stock_by_id(meds_stock_id):
+def get_meds_stock_by_id(id):
     try:
         with db.engine.connect() as connection:
-            sql = text('SELECT * FROM meds_stock WHERE meds_stock_id = :meds_stock_id')
-            result = connection.execute(sql, {'meds_stock_id':meds_stock_id})
-            meds_stock = result.fetchone()
+            sql = text('SELECT * FROM med_stock WHERE id = :id')
+            result = connection.execute(sql, {'id':id})
+            med = result.fetchone()
 
-        if meds_stock:
+        if med:
             return jsonify({
                 "success": True,
-                "meds_stock": dict(meds_stock._mapping)
+                "meds_stock": dict(med._mapping)
             }), 200
         else:
             return jsonify({
@@ -54,17 +54,17 @@ def get_meds_stock_by_id(meds_stock_id):
         return jsonify({'error': error}), 500
     
 
-def create_meds_stock(meds_stock_dto: MedsStockDTO):
+def create_meds_stock(create_meds_stock_dto: MedsStockDTO):
     try:
         with db.engine.connect() as connection:
-            sql = text('INSERT INTO meds_stock (Meds_Name, Meds_Qtd, Meds_val, Meds_Desc, Meds_Type, Required_Person) VALUES (:meds_name, :meds_qtd, :meds_val, :mds_desc, :meds_type, :person_id)')
+            sql = text('INSERT INTO med_stock (med_name, med_qtd, med_val, med_desc, med_type, user_id) VALUES (:med_name, :med_qtd, :med_val, :med_desc, :med_type, :user_id)')
             connection.execute(sql, {
-                "meds_name": meds_stock_dto.meds_name,
-                "meds_qtd": meds_stock_dto.meds_qtd,
-                "meds_val": meds_stock_dto.meds_val,
-                "mds_desc": meds_stock_dto.mds_desc,
-                "meds_type": meds_stock_dto.meds_type,
-                "person_id": meds_stock_dto.person_id
+                "med_name": create_meds_stock_dto.med_name,
+                "med_qtd": create_meds_stock_dto.med_qtd,
+                "med_val": create_meds_stock_dto.med_val,
+                "med_desc": create_meds_stock_dto.med_desc,
+                "med_type": create_meds_stock_dto.med_type,
+                "user_id": create_meds_stock_dto.user_id
             })
             connection.commit()
             return jsonify({
@@ -77,18 +77,18 @@ def create_meds_stock(meds_stock_dto: MedsStockDTO):
         return jsonify({'error': error}), 500
 
 
-def update_meds_stock(id, meds_stock_dto: UpdateMedsStockDTO):
+def update_meds_stock(id, update_meds_stock_dto: UpdateMedsStockDTO):
     try:
         with db.engine.connect() as connection:
-            sql = text('UPDATE meds_stock SET Meds_Name = :meds_name, Meds_Qtd = :meds_qtd, Meds_val = :meds_val, Meds_Desc = :mds_desc, Meds_Type = :meds_type, Required_Person = :person_id WHERE id = :meds_stock_id')
+            sql = text('UPDATE med_stock SET med_name = :med_name, med_qtd = :med_qtd, med_val = :med_val, med_desc = :med_desc, med_type = :med_type, user_id = :user_id WHERE id = :id')
             result= connection.execute(sql, {
-                "meds_stock_id": id,
-                "meds_name": meds_stock_dto.meds_name,
-                "meds_qtd": meds_stock_dto.meds_qtd,
-                "meds_val": meds_stock_dto.meds_val,
-                "mds_desc": meds_stock_dto.mds_desc,
-                "meds_type": meds_stock_dto.meds_type,
-                "person_id": meds_stock_dto.person_id
+                "id": id,
+                "med_name": update_meds_stock_dto.med_name,
+                "med_qtd": update_meds_stock_dto.med_qtd,
+                "med_val": update_meds_stock_dto.med_val,
+                "med_desc": update_meds_stock_dto.med_desc,
+                "med_type": update_meds_stock_dto.med_type,
+                "user_id": update_meds_stock_dto.user_id
             })
 
             if result.rowcount == 0:
@@ -108,11 +108,11 @@ def update_meds_stock(id, meds_stock_dto: UpdateMedsStockDTO):
         error = str(e.__dict__['orig'])
         return jsonify({'error': error}), 500
     
-def delete_meds_stock(meds_stock_id):
+def delete_meds_stock(id):
     try:
         with db.engine.connect() as connection:
-            sql = text('DELETE FROM meds_stock WHERE meds_stock_id = :meds_stock_id')
-            result= connection.execute(sql, {'meds_stock_id':meds_stock_id})
+            sql = text('DELETE FROM med_stock WHERE id = :id')
+            result= connection.execute(sql, {'id': id})
             
             if result.rowcount == 0:
                 return jsonify({

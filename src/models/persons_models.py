@@ -1,19 +1,21 @@
 from database.db import db
 class Log(db.Model):
-    __tablename__ = 'persons'
+    __tablename__ = 'user'
 
     # Definição das colunas
-    Persons_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    Last_Name = db.Column(db.Varchar(255), nullable=False)
-    First_Name = db.Column(db.Varchar(255), nullable=False)
-    Age = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    first_name = db.Column(db.Varchar(50), nullable=False)
+    last_name = db.Column(db.Varchar(50), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    password = db.Column(db.Varchar(100), nullable=False)
 
     # Método para retornar um dicionário com os dados
     def to_dict(self):
         return {
-            'Persons_id': self.Persons_id,
-            'Last_Name': self.Last_Name,
-            'First_Name': self.First_Name,
-            'Age': self.Age,
-            'tabela': 'persons' 
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'age': self.age,
+            'password': self.password,
+            'tabela': 'user' 
         }

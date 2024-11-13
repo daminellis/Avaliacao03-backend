@@ -4,11 +4,11 @@ from datetime import datetime
 from typing import Optional
 
 class UpdateNotebookDTO:
-    def __init__(self, title: Optional[str] = None, note_name: Optional[str] = None, description: Optional[str] = None, method: Optional[MedMethod] = None, med_type: Optional[MedsType] = None, med_freq: Optional[str] = None, qtd_taken: Optional[int] = None, qtd_total: Optional[int] = None, init_schedule: Optional[datetime] = None, end_schedule: Optional[datetime] = None, status: Optional[Status] = None, obs: Optional[str] = None, person_id: Optional[int] = None):
-        self.title = title
-        self.note_name = note_name
-        self.description = description
-        self.method = method
+    def __init__(self, note_title: Optional[str], med_stock_id: Optional[int], note_desc:Optional[str], med_method: Optional[MedMethod], med_type: Optional[MedsType], med_freq: Optional[str], qtd_taken: Optional[int], qtd_total: Optional[int], init_schedule: Optional[datetime], end_schedule: Optional[datetime], status: Optional[Status], obs: Optional[str], user_id: Optional[int]):
+        self.note_title = note_title
+        self.med_stock_id = med_stock_id
+        self.note_desc = note_desc
+        self.med_method = med_method
         self.med_type = med_type
         self.med_freq = med_freq
         self.qtd_taken = qtd_taken
@@ -17,4 +17,4 @@ class UpdateNotebookDTO:
         self.end_schedule = end_schedule
         self.status = status
         self.obs = obs
-        self.person_id = person_id
+        self.user_id = user_id

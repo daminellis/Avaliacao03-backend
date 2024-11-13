@@ -6,30 +6,30 @@ from controllers.user_controller import delete_user
 from flask import request
 
 #DTOS
-from dtos.person.create_person_dto import PersonDTO
-from dtos.person.update_person_dto import UpdatePersonDTO
+from dtos.user.create_user_dto import UserDTO
+from dtos.user.update_user_dto import UpdateUserDTO
 
 def users(app):
     @app.route('/users', methods=['GET'])
-    def get_all_persons_route():
+    def get_all_users_route():
         return get_all_users()
 
-    @app.route('/users/<int:person_id>', methods=['GET'])
-    def get_person_by_id_route(person_id):
-        return get_user_by_id(person_id)
+    @app.route('/users/<int:id>', methods=['GET'])
+    def get_user_by_id_route(id):
+        return get_user_by_id(id)
 
     @app.route('/user', methods=['POST'])
-    def create_person_route():
+    def create_user_route():
         data = request.get_json()
-        person_dto = PersonDTO(data['first_name'], data['last_name'], data['age'])
-        return create_user(person_dto)
+        user_dto = UserDTO(data['first_name'], data['last_name'], data['age'], data['password'])
+        return create_user(user_dto)
 
-    @app.route('/users/<int:person_id>', methods=['PUT'])
-    def update_person_route(person_id):
+    @app.route('/users/<int:id>', methods=['PUT'])
+    def update_user_route(id):
         data = request.get_json()
-        update_person_dto = UpdatePersonDTO(data['first_name'], data['last_name'], data['age'])
-        return update_user(person_id, update_person_dto)
+        update_user_dto = UpdateUserDTO(data['first_name'], data['last_name'], data['age'], data['password'])
+        return update_user(id, update_user_dto)
 
-    @app.route('/users/<int:person_id>', methods=['DELETE'])
-    def delete_person_route(person_id):
-        return delete_user(person_id)
+    @app.route('/users/<int:id>', methods=['DELETE'])
+    def delete_user_route(id):
+        return delete_user(id)

@@ -3,36 +3,37 @@ class Log(db.Model):
     __tablename__ = 'notebook'
 
     # Definição das colunas
-    Notebook_Id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    Note_Title = db.Column(db.Varchar(255))
-    Med_Name = db.Column(db.Varchar(255))
-    Med_Desc = db.Column(db.Text)
-    Med_Method = db.Column(db.Enum('diário','controlado'))
-    Med_Type = db.Column(db.Enum('comprimido','xarope','injeção','pomada'))
-    Med_Freq = db.Column(db.Varchar(50))
-    Qtd_Taken = db.Column(db.Integer)
-    Qtd_Total = db.Column(db.Integer)
-    Init_Schedule = db.Column(db.DateTime)
-    End_Schedule = db.Column(db.DateTime)
-    status = db.Column(db.Enum('ativo','completo','cancelado'))
-    Obs = db.Column(db.Text)
-    Person_Id = db.Column(db.Integer, db.ForeignKey('persons.Person_id'))
-    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    note_title = db.Column(db.Varchar(100), nullable=False)
+    med_stock_id = db.Column(db.Integer, db.ForeignKey('med_stock.id'), nullable=False)
+    note_desc = db.Column(db.Text)
+    med_method = db.Column(db.Enum('diário', 'controlado'), default=None)
+    med_type = db.Column(db.Enum('comprimido', 'xarope', 'injeção', 'pomada'), default=None)
+    med_freq = db.Column(db.Varchar(50), nullable=False)
+    qtd_taken = db.Column(db.Integer, nullable=False)
+    qtd_total = db.Column(db.Integer, nullable=False)
+    init_schedule = db.Column(db.DateTime, nullable=False)
+    end_schedule = db.Column(db.DateTime, nullable=False)
+    status = db.Column(db.Enum('ativo', 'completo', 'cancelado'), default='ativo')
+    obs = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    # Método para retornar um dicionário com os dados
     def to_dict(self):
         return {
-            'Notebook_Id': self.Notebook_Id,
-            'Note_Title': self.Note_Title,
-            'Med_Name': self.Med_Name,
-            'Med_Desc': self.Med_Desc,
-            'Med_Method': self.Med_Method,
-            'Med_Type': self.Med_Type,
-            'Med_Freq': self.Med_Freq,
-            'Qtd_Taken': self.Qtd_Taken,
-            'Qtd_Total': self.Qtd_Total,
-            'Init_Schedule': self.Init_Schedule,
-            'End_Schedule': self.End_Schedule,
+            'id': self.id,
+            'note_title': self.note_title,
+            'med_stock_id': self.med_stock_id,
+            'note_desc': self.note_desc,
+            'med_method': self.med_method,
+            'med_type': self.med_type,
+            'med_freq': self.med_freq,
+            'qtd_taken': self.qtd_taken,
+            'qtd_total': self.qtd_total,
+            'init_schedule': self.init_schedule,
+            'end_schedule': self.end_schedule,
             'status': self.status,
-            'Obs': self.Obs,
-            'Person_Id': self.Person_Id,
-            'tabela': 'notebook' 
+            'obs': self.obs,
+            'user_id': self.user_id,
+            'tabela': 'notebook'
         }
