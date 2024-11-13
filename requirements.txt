@@ -4,3 +4,4 @@ python-dotenv
 flask-cors
 flask
 Flask-JWT
+flask_restplus

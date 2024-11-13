@@ -1,4 +1,4 @@
-from auth.auth_controller import authentication
+from auth.auth_service import authentication
 from flask import request
 
 #DTO

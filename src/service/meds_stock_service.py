@@ -3,9 +3,9 @@ from database.db import db
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import text
 
-#DTOS
-from dtos.meds_stock.create_meds_stock_dto import MedsStockDTO
-from dtos.meds_stock.update_meds_stock_dto import UpdateMedsStockDTO
+#Repository
+from repository.meds_stock.create_meds_stock_repository import MedsStockRepository
+from repository.meds_stock.update_meds_stock_repository import UpdateMedsStockRepository
 
 def get_all_meds_stock():
     try:
@@ -54,17 +54,17 @@ def get_meds_stock_by_id(id):
         return jsonify({'error': error}), 500
     
 
-def create_meds_stock(create_meds_stock_dto: MedsStockDTO):
+def create_meds_stock(create_meds_stock_repository: MedsStockRepository):
     try:
         with db.engine.connect() as connection:
             sql = text('INSERT INTO med_stock (med_name, med_qtd, med_val, med_desc, med_type, user_id) VALUES (:med_name, :med_qtd, :med_val, :med_desc, :med_type, :user_id)')
             connection.execute(sql, {
-                "med_name": create_meds_stock_dto.med_name,
-                "med_qtd": create_meds_stock_dto.med_qtd,
-                "med_val": create_meds_stock_dto.med_val,
-                "med_desc": create_meds_stock_dto.med_desc,
-                "med_type": create_meds_stock_dto.med_type,
-                "user_id": create_meds_stock_dto.user_id
+                "med_name": create_meds_stock_repository.med_name,
+                "med_qtd": create_meds_stock_repository.med_qtd,
+                "med_val": create_meds_stock_repository.med_val,
+                "med_desc": create_meds_stock_repository.med_desc,
+                "med_type": create_meds_stock_repository.med_type,
+                "user_id": create_meds_stock_repository.user_id
             })
             connection.commit()
             return jsonify({
@@ -77,18 +77,18 @@ def create_meds_stock(create_meds_stock_dto: MedsStockDTO):
         return jsonify({'error': error}), 500
 
 
-def update_meds_stock(id, update_meds_stock_dto: UpdateMedsStockDTO):
+def update_meds_stock(id, update_meds_stock_repository: UpdateMedsStockRepository):
     try:
         with db.engine.connect() as connection:
             sql = text('UPDATE med_stock SET med_name = :med_name, med_qtd = :med_qtd, med_val = :med_val, med_desc = :med_desc, med_type = :med_type, user_id = :user_id WHERE id = :id')
             result= connection.execute(sql, {
                 "id": id,
-                "med_name": update_meds_stock_dto.med_name,
-                "med_qtd": update_meds_stock_dto.med_qtd,
-                "med_val": update_meds_stock_dto.med_val,
-                "med_desc": update_meds_stock_dto.med_desc,
-                "med_type": update_meds_stock_dto.med_type,
-                "user_id": update_meds_stock_dto.user_id
+                "med_name": update_meds_stock_repository.med_name,
+                "med_qtd": update_meds_stock_repository.med_qtd,
+                "med_val": update_meds_stock_repository.med_val,
+                "med_desc": update_meds_stock_repository.med_desc,
+                "med_type": update_meds_stock_repository.med_type,
+                "user_id": update_meds_stock_repository.user_id
             })
 
             if result.rowcount == 0:

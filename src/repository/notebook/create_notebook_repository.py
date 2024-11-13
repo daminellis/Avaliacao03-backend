@@ -2,7 +2,7 @@ from enums.notebook import MedMethod, Status
 from enums.meds_type  import MedsType
 from datetime import datetime
 
-class NotebookDTO:
+class NotebookRepository:
     def __init__(self, note_title: str, med_stock_id: int, note_desc: str, med_method: MedMethod, med_type: MedsType, med_freq: str, qtd_taken: int, qtd_total: int, init_schedule: datetime, end_schedule: datetime, status: Status, obs: str, user_id: int):
         self.note_title = note_title
         self.med_stock_id = med_stock_id

@@ -7,9 +7,9 @@ from service.notebook_service import delete_notebook
 from flask import request
 from flask_jwt_extended import jwt_required
 
-#DTOS
-from dtos.notebook.create_notebook_dto import NotebookDTO
-from dtos.notebook.update_notebook_dto import UpdateNotebookDTO
+#Repository
+from repository.notebook.create_notebook_repository import NotebookRepository
+from repository.notebook.update_notebook_repository import UpdateNotebookRepository
 
 def notebook(app):
     @app.route('/notebooks', methods=['GET'])
@@ -26,15 +26,15 @@ def notebook(app):
     @jwt_required()
     def create_notebook_route():
         data= request.get_json()
-        create_notebook_dto= NotebookDTO(data['note_title'], data['med_stock_id'], data['note_desc'], data['med_method'], data['med_type'], data['med_freq'], data['qtd_taken'], data['qtd_total'], data['init_schedule'], data['end_schedule'], data['status'], data['obs'], data['user_id'])
-        return create_notebook(create_notebook_dto)
+        create_notebook_rep= NotebookRepository(data['note_title'], data['med_stock_id'], data['note_desc'], data['med_method'], data['med_type'], data['med_freq'], data['qtd_taken'], data['qtd_total'], data['init_schedule'], data['end_schedule'], data['status'], data['obs'], data['user_id'])
+        return create_notebook(create_notebook_rep)
 
-    @app.route('/notebooks/<int:id>', methods=['PUT'])
+    @app.route('/notebooks/<int:id>', methods=['PATCH'])
     @jwt_required()
     def update_notebook_route(id):
         data= request.get_json()
-        update_notebook_dto= UpdateNotebookDTO(data['note_title'], data['med_stock_id'], data['note_desc'], data['med_method'], data['med_type'], data['med_freq'], data['qtd_taken'], data['qtd_total'], data['init_schedule'], data['end_schedule'], data['status'], data['obs'], data['user_id'])
-        return update_notebook(id ,update_notebook_dto)
+        update_notebook_rep= UpdateNotebookRepository(data['note_title'], data['med_stock_id'], data['note_desc'], data['med_method'], data['med_type'], data['med_freq'], data['qtd_taken'], data['qtd_total'], data['init_schedule'], data['end_schedule'], data['status'], data['obs'], data['user_id'])
+        return update_notebook(id ,update_notebook_rep)
 
     @app.route('/notebooks/<int:id>', methods=['DELETE'])
     @jwt_required()

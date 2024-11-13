@@ -1,7 +1,7 @@
 from typing import Optional
 from enums.meds_type import MedsType
 
-class UpdateMedsStockDTO:
+class UpdateMedsStockRepository:
     def __init__(self, med_name: Optional[str] = None, med_qtd: Optional[int] = None, med_val: Optional[str] = None, med_desc: Optional[str] = None, med_type: Optional[MedsType] = None, user_id: Optional[int] = None):
         self.med_name = med_name
         self.med_qtd = med_qtd
