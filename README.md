@@ -54,10 +54,35 @@ Para executar o projeto:
 
 ## Rotas :milky_way:
 
+### Login
+
+#### `POST/auth/login`
+Rota pública de verificação de usuário que forncerá o token de acesso para as outras rotas privadas.
+
+#### Corpo da Requisição:
+```json
+{
+  "first_name": "João",
+  "password": "senhateste123",
+}
+```
+
+#### Corpo da Resposta:
+```json
+{
+  "access_token": "<token>",
+  "success": true
+}
+```
+
+#### Respostas de erro:
+- `401` - Usuário ou senha incorretos;
+  
+
 ### Usuarios
 
-#### `GET /usuarios`
-Lista todos os usuários disponíveis.
+#### `GET /users`
+Lista todos os usuários disponíveis (rota privada).
 
 #### Resposta:
 ```json
@@ -81,8 +106,8 @@ Lista todos os usuários disponíveis.
 
 ---
 
-### `GET /usuarios/{id}`
-Lista um usuário específico pelo `id`.
+### `GET /users/{id}`
+Lista um usuário específico pelo `id` (rota privada).
 
 #### Resposta:
 ```json
@@ -105,31 +130,8 @@ Lista um usuário específico pelo `id`.
 
 ---
 
-### `GET /usuarios?first_name=:first_name`
-Busca usuários pelo nome.
-
-#### Resposta:
-```json
-{
-  "success": true,
-  "usuario": {
-    "id": 1,
-    "first_name": "João",
-    "last_name": "Silva",
-    "age": 30,
-    "password": "senha123"
-  }
-}
-```
-
-#### Respostas de erro:
-- `404` - Usuário não encontrado;
-- `500` - Erro interno do servidor;
-
----
-
-### `POST /usuarios`
-Cadastra um novo usuário.
+### `POST /user`
+Cadastra um novo usuário (rota pública).
 
 #### Corpo da Requisição:
 ```json
@@ -155,8 +157,8 @@ Cadastra um novo usuário.
 
 ---
 
-### `PATCH /usuarios/{id}`
-Atualiza as informações de um usuário específico pelo `id`.
+### `PATCH /users/{id}`
+Atualiza as informações de um usuário específico pelo `id` (rota privada).
 
 #### Corpo da Requisição:
 ```json
@@ -183,8 +185,8 @@ Atualiza as informações de um usuário específico pelo `id`.
 
 ---
 
-### `DELETE /usuarios/{id}`
-Deleta um usuário específico pelo `id`.
+### `DELETE /users/{id}`
+Deleta um usuário específico pelo `id` (rota privada).
 
 #### Corpo da Resposta:
 ```json
@@ -203,7 +205,7 @@ Deleta um usuário específico pelo `id`.
 ### Medicamentos
 
 ### `GET /meds_stock`
-Lista todo o estoque de medicamentos.
+Lista todo o estoque de medicamentos (rota privada).
 
 #### Resposta:
 ```json
@@ -230,7 +232,7 @@ Lista todo o estoque de medicamentos.
 ---
 
 ### `GET /meds_stock/{id}`
-Busca um medicamento específico no estoque pelo `id`.
+Busca um medicamento específico no estoque pelo `id` (rota privada).
 
 #### Resposta:
 ```json
@@ -255,7 +257,7 @@ Busca um medicamento específico no estoque pelo `id`.
 ---
 
 ### `POST /meds_stock`
-Adiciona um novo medicamento ao estoque.
+Adiciona um novo medicamento ao estoque (rota privada).
 
 #### Corpo da Requisição:
 ```json
@@ -283,7 +285,7 @@ Adiciona um novo medicamento ao estoque.
 ---
 
 ### `PATCH /meds_stock/{id}`
-Atualiza as informações de um medicamento no estoque.
+Atualiza as informações de um medicamento no estoque (rota privada).
 
 #### Corpo da Requisição:
 ```json
@@ -312,7 +314,7 @@ Atualiza as informações de um medicamento no estoque.
 ---
 
 ### `DELETE /meds_stock/{id}`
-Remove um medicamento do estoque.
+Remove um medicamento do estoque (rota privada).
 
 #### Corpo da Resposta:
 ```json
@@ -331,7 +333,7 @@ Remove um medicamento do estoque.
 
 
 ### `GET /notebooks`
-Lista todas as notas cadastradas.
+Lista todas as notas cadastradas (rota privada).
 
 #### Resposta:
 ```json
@@ -365,7 +367,7 @@ Lista todas as notas cadastradas.
 ---
 
 ### `GET /notebooks/{id}`
-Busca uma nota específica pelo `id`.
+Busca uma nota específica pelo `id` (rota privada).
 
 #### Resposta:
 ```json
@@ -397,7 +399,7 @@ Busca uma nota específica pelo `id`.
 ---
 
 ### `POST /notebooks`
-Adiciona uma nova nota.
+Adiciona uma nova nota (rota privada).
 
 #### Corpo da Requisição:
 ```json
@@ -432,7 +434,7 @@ Adiciona uma nova nota.
 ---
 
 ### `PATCH /notebooks/{id}`
-Atualiza as informações de uma nota.
+Atualiza as informações de uma nota (rota privada).
 
 #### Corpo da Requisição:
 ```json
@@ -468,7 +470,7 @@ Atualiza as informações de uma nota.
 ---
 
 ### `DELETE /notebooks/{id}`
-Remove uma nota específica pelo `id`.
+Remove uma nota específica pelo `id` (rota privada).
 
 #### Corpo da Resposta:
 ```json
