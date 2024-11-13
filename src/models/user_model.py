@@ -4,10 +4,10 @@ class Log(db.Model):
 
     # Definição das colunas
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    first_name = db.Column(db.Varchar(50), nullable=False)
-    last_name = db.Column(db.Varchar(50), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    password = db.Column(db.Varchar(100), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
 
     # Método para retornar um dicionário com os dados
     def to_dict(self):

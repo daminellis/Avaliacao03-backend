@@ -54,7 +54,29 @@ def get_user_by_id(id):
         error = str(e.__dict__['orig'])
         return jsonify({'error': error}), 500
     
-    
+def get_user_by_first_name(first_name):
+    try:
+        with db.engine.connect() as connection:
+            sql = text('SELECT * FROM user WHERE first_name = :first_name')
+            result = connection.execute(sql, {'first_name': first_name})
+            user = result.fetchone()
+
+        if user:
+            return jsonify({
+                "success": True,
+                "user": dict(user._mapping)
+            }), 200
+        else:
+            return jsonify({
+                "success": False,
+                "error": "Usuário não encontrado"
+            }), 404
+        
+    except SQLAlchemyError as e:
+        error = str(e.__dict__['orig'])
+        return jsonify({'error': error}), 500
+
+
 def create_user(create_user_dto: UserDTO):
     try:
         with db.engine.connect() as connection:
