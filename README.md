@@ -54,125 +54,432 @@ Para executar o projeto:
 
 ## Rotas :milky_way:
 
-### Sementes
+### Usuarios
 
-#### `GET /sementes[?tipo=:tipo]`
-Lista todas as sementes disponíveis. Filtra pela `tipo` se for informado.
+#### `GET /usuarios`
+Lista todos os usuários disponíveis.
 
-Resposta:
-````json
-[
-  {
-    "id": 1,
-    "nome": "Semente 1",
-    "tipo": "Semente 1",
-    "tempoGerminacao": 10,
-    "dataExpiracao": "2021-01-01",
-  }
-]
-````
-
-Respostas de erro:
-* `400` - `tipo` inválido;
-* `204` - nenhuma semente encontrada;
-
-#### `GET /sementes/{id}`
-Lista uma semente específica pelo `id`.
-
-Resposta:
-````json
+#### Resposta:
+```json
 {
-  "id": 1,
-  "nome": "Semente 1",
-  "tipo": "Semente 1",
-  "tempoGerminacao": 10,
-  "dataExpiracao": "2021-01-01",
+  "success": true,
+  "usuarios": [
+    {
+      "id": 1,
+      "first_name": "João",
+      "last_name": "Silva",
+      "age": 30,
+      "password": "senha123"
+    }
+  ]
 }
-````
+```
 
-Respostas de erro:
-* `400` - `id` inválido;
-* `404` - semente não encontrada;
+#### Respostas de erro:
+- `404` - Nenhum usuário encontrado;
+- `500` - Erro interno do servidor;
 
-#### `POST /sementes`
+---
 
-Cadastra uma nova semente.
+### `GET /usuarios/{id}`
+Lista um usuário específico pelo `id`.
 
-Corpo da Requisição:
-````json
+#### Resposta:
+```json
 {
-  "nome": "Tomate",
-  "tipo": "Fruta",
-  "tempoGerminacao": 10,
-}
-````
-
-Corpo da Resposta:
-````json
-[
-  {
+  "success": true,
+  "usuario": {
     "id": 1,
-    "nome": "Tomate",
-    "tipo": "Fruta",
-    "tempoGerminacao": 10,
+    "first_name": "João",
+    "last_name": "Silva",
+    "age": 30,
+    "password": "senha123"
   }
-]
-````
+}
+```
 
-Respostas de erro:
-* `400` - data de expiração inválida;
-* `400` - tempo de germinação inválido;
-* `400` - tipo inválido;
-* `404` - semente não encontrada;
-* `409` - semente já cadastrada;
+#### Respostas de erro:
+- `400` - `id` inválido;
+- `404` - Usuário não encontrado;
+- `500` - Erro interno do servidor;
 
-#### `PATCH /sementes/{id}`
+---
 
-Atualiza as informações de uma semente específica pelo `id`.
+### `GET /usuarios?first_name=:first_name`
+Busca usuários pelo nome.
 
-Corpo da Requisição:
-````json
+#### Resposta:
+```json
 {
-  "tempoGerminacao": 12,
+  "success": true,
+  "usuario": {
+    "id": 1,
+    "first_name": "João",
+    "last_name": "Silva",
+    "age": 30,
+    "password": "senha123"
+  }
 }
-````
+```
 
-Corpo da Resposta:
-````json
-[
-  {
+#### Respostas de erro:
+- `404` - Usuário não encontrado;
+- `500` - Erro interno do servidor;
+
+---
+
+### `POST /usuarios`
+Cadastra um novo usuário.
+
+#### Corpo da Requisição:
+```json
+{
+  "first_name": "Maria",
+  "last_name": "Oliveira",
+  "age": 25,
+  "password": "senha123"
+}
+```
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Usuário criado com sucesso"
+}
+```
+
+#### Respostas de erro:
+- `400` - Dados inválidos;
+- `500` - Erro interno do servidor;
+
+---
+
+### `PATCH /usuarios/{id}`
+Atualiza as informações de um usuário específico pelo `id`.
+
+#### Corpo da Requisição:
+```json
+{
+  "first_name": "Maria",
+  "last_name": "Oliveira",
+  "age": 26,
+  "password": "novaSenha"
+}
+```
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Usuário atualizado com sucesso"
+}
+```
+
+#### Respostas de erro:
+- `400` - `id` inválido;
+- `404` - Usuário não encontrado;
+- `500` - Erro interno do servidor;
+
+---
+
+### `DELETE /usuarios/{id}`
+Deleta um usuário específico pelo `id`.
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Usuário deletado com sucesso"
+}
+```
+
+#### Respostas de erro:
+- `400` - `id` inválido;
+- `404` - Usuário não encontrado;
+- `500` - Erro interno do servidor;
+
+
+### Medicamentos
+
+### `GET /meds_stock`
+Lista todo o estoque de medicamentos.
+
+#### Resposta:
+```json
+{
+  "success": true,
+  "meds_stock": [
+    {
+      "id": 1,
+      "med_name": "Paracetamol",
+      "med_qtd": 100,
+      "med_val": "2023-11-01",
+      "med_desc": "Medicamento para dor e febre",
+      "med_type": "Analgésico",
+      "user_id": 2
+    }
+  ]
+}
+```
+
+#### Respostas de erro:
+- `404` - Estoque de medicamentos não encontrado;
+- `500` - Erro interno do servidor;
+
+---
+
+### `GET /meds_stock/{id}`
+Busca um medicamento específico no estoque pelo `id`.
+
+#### Resposta:
+```json
+{
+  "success": true,
+  "meds_stock": {
     "id": 1,
-    "nome": "Tomate",
-    "tipo": "Fruta",
-    "tempoGerminacao": 12,
+    "med_name": "Paracetamol",
+    "med_qtd": 100,
+    "med_val": "2023-11-01",
+    "med_desc": "Medicamento para dor e febre",
+    "med_type": "Analgésico",
+    "user_id": 2
   }
-]
-````
+}
+```
 
-Respostas de erro:
-* `400` - `id` inválido;
-* `400` - data de expiração inválida;
-* `400` - tempo de germinação inválido;
-* `400` - tipo inválido;
-* `404` - semente não encontrada;
+#### Respostas de erro:
+- `404` - Medicamento não encontrado;
+- `500` - Erro interno do servidor;
 
-#### `DELETE /sementes/{id}`
+---
 
-Deleta uma semente específica pelo `id`.
+### `POST /meds_stock`
+Adiciona um novo medicamento ao estoque.
 
-Corpo da Resposta:
-````json
-[
-  {
+#### Corpo da Requisição:
+```json
+{
+  "med_name": "Ibuprofeno",
+  "med_qtd": 200,
+  "med_val": "2024-05-01",
+  "med_desc": "Medicamento anti-inflamatório",
+  "med_type": "Anti-inflamatório",
+  "user_id": 1
+}
+```
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Medicamento adicionado ao estoque"
+}
+```
+
+#### Respostas de erro:
+- `500` - Erro interno do servidor;
+
+---
+
+### `PATCH /meds_stock/{id}`
+Atualiza as informações de um medicamento no estoque.
+
+#### Corpo da Requisição:
+```json
+{
+  "med_name": "Ibuprofeno",
+  "med_qtd": 150,
+  "med_val": "2024-06-01",
+  "med_desc": "Anti-inflamatório atualizado",
+  "med_type": "Anti-inflamatório",
+  "user_id": 1
+}
+```
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Medicamento atualizado"
+}
+```
+
+#### Respostas de erro:
+- `404` - Medicamento não encontrado;
+- `500` - Erro interno do servidor;
+
+---
+
+### `DELETE /meds_stock/{id}`
+Remove um medicamento do estoque.
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Medicamento deletado"
+}
+```
+
+#### Respostas de erro:
+- `404` - Medicamento não encontrado;
+- `500` - Erro interno do servidor;
+
+
+### Notebook
+
+
+### `GET /notebooks`
+Lista todas as notas cadastradas.
+
+#### Resposta:
+```json
+{
+  "success": true,
+  "notebooks": [
+    {
+      "id": 1,
+      "note_title": "Nota de Paracetamol",
+      "med_stock_id": 10,
+      "note_desc": "Instruções para uso de Paracetamol",
+      "med_method": "Oral",
+      "med_type": "Analgésico",
+      "med_freq": "8h",
+      "qtd_taken": 2,
+      "qtd_total": 10,
+      "init_schedule": "2024-01-10",
+      "end_schedule": "2024-01-20",
+      "status": "Ativo",
+      "obs": "Tomar após as refeições",
+      "user_id": 2
+    }
+  ]
+}
+```
+
+#### Respostas de erro:
+- `404` - Nenhuma nota encontrada;
+- `500` - Erro interno do servidor;
+
+---
+
+### `GET /notebooks/{id}`
+Busca uma nota específica pelo `id`.
+
+#### Resposta:
+```json
+{
+  "success": true,
+  "notebook": {
     "id": 1,
-    "nome": "Tomate",
-    "tipo": "Fruta",
-    "tempoGerminacao": 12,
+    "note_title": "Nota de Paracetamol",
+    "med_stock_id": 10,
+    "note_desc": "Instruções para uso de Paracetamol",
+    "med_method": "Oral",
+    "med_type": "Analgésico",
+    "med_freq": "8h",
+    "qtd_taken": 2,
+    "qtd_total": 10,
+    "init_schedule": "2024-01-10",
+    "end_schedule": "2024-01-20",
+    "status": "Ativo",
+    "obs": "Tomar após as refeições",
+    "user_id": 2
   }
-]
-````
+}
+```
 
-Respostas de erro:
-* `400` - `id` inválido;
-* `404` - semente não encontrada;
-* `409` - semente em uso;
+#### Respostas de erro:
+- `404` - Nota não encontrada;
+- `500` - Erro interno do servidor;
+
+---
+
+### `POST /notebooks`
+Adiciona uma nova nota.
+
+#### Corpo da Requisição:
+```json
+{
+  "note_title": "Nota de Ibuprofeno",
+  "med_stock_id": 15,
+  "note_desc": "Instruções para uso de Ibuprofeno",
+  "med_method": "Oral",
+  "med_type": "Anti-inflamatório",
+  "med_freq": "12h",
+  "qtd_taken": 1,
+  "qtd_total": 20,
+  "init_schedule": "2024-02-01",
+  "end_schedule": "2024-02-15",
+  "status": "Ativo",
+  "obs": "Tomar com água",
+  "user_id": 1
+}
+```
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Nota criada com sucesso"
+}
+```
+
+#### Respostas de erro:
+- `500` - Erro interno do servidor;
+
+---
+
+### `PATCH /notebooks/{id}`
+Atualiza as informações de uma nota.
+
+#### Corpo da Requisição:
+```json
+{
+  "note_title": "Nota atualizada de Ibuprofeno",
+  "med_stock_id": 15,
+  "note_desc": "Instruções atualizadas para uso de Ibuprofeno",
+  "med_method": "Oral",
+  "med_type": "Anti-inflamatório",
+  "med_freq": "12h",
+  "qtd_taken": 1,
+  "qtd_total": 20,
+  "init_schedule": "2024-02-01",
+  "end_schedule": "2024-02-15",
+  "status": "Ativo",
+  "obs": "Tomar com água",
+  "user_id": 1
+}
+```
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Nota atualizada com sucesso"
+}
+```
+
+#### Respostas de erro:
+- `404` - Nota não encontrada;
+- `500` - Erro interno do servidor;
+
+---
+
+### `DELETE /notebooks/{id}`
+Remove uma nota específica pelo `id`.
+
+#### Corpo da Resposta:
+```json
+{
+  "success": true,
+  "message": "Nota deletada com sucesso"
+}
+```
+
+#### Respostas de erro:
+- `404` - Nota não encontrada;
+- `500` - Erro interno do servidor;
+
+
