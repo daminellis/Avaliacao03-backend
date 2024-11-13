@@ -3,10 +3,10 @@
 
 
 # Importando as rotas
-from routes.user_routes import users
-from routes.notebook_routes import notebook
-from routes.meds_stock_routes import meds_stock 
-from routes.login_route import login
+from controller.user_controller import users
+from controller.notebook_controller import notebook
+from controller.meds_stock_controller import meds_stock
+from controller.login_controller import login
 
 def default_routes(app):
     #nomde da definicao
