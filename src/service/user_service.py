@@ -41,7 +41,7 @@ def get_user_by_id(id):
         if user:
             return jsonify(SuccessDTO(code=200, data=user)), 200
         else:
-            return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: GET /users/{id}'])), 404
+            return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: GET /users/<:id>'])), 404
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -57,7 +57,7 @@ def get_user_by_first_name(first_name):
         if user:
             return jsonify(SuccessDTO(code=200, data=user)), 200
         else:
-            return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: GET /users/{first_name}'])), 404
+            return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: GET /users/<:first_name>'])), 404
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -97,7 +97,7 @@ def update_user(id, update_user_repository: UpdateUserRepository):
             })
 
             if result.rowcount == 0:
-                return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: PUT /users/{id}'])), 404            
+                return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: PATCH /users/<:id>'])), 404            
             connection.commit()
 
         return jsonify(SuccessDTO(code=200, message="Usuário atualizado com sucesso")), 200
@@ -115,7 +115,7 @@ def delete_user(id):
             result= connection.execute(sql, {'id':id})
 
             if result.rowcount == 0:
-                return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: DELETE /users/{id}'])), 404
+                return jsonify(ErrorDTO(code=404, message="Usuário não encontrado", details=['path: DELETE /users/<:id>'])), 404
             connection.commit()
 
         return jsonify(SuccessDTO(code=200, message="Usuário deletado com sucesso")), 200
