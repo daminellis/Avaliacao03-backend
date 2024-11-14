@@ -2,7 +2,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager as JWT
 from flask_cors import CORS
 from database.db import db
-from controller.index import default_routes
+from controllers.index import default_routes
 from dotenv import load_dotenv
 import os
 

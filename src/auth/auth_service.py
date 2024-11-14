@@ -3,7 +3,7 @@ from flask_jwt_extended import create_access_token
 from datetime import timedelta
 
 #MODEL
-from models.user_model import Log
+from models.user_model import User
 
 #DTO
 from dtos.login.login_dto import LoginDTO
@@ -11,7 +11,7 @@ from dtos.responses.success.login_success_dto import LoginSuccessDTO
 from dtos.responses.error.error_dto import ErrorDTO
 
 def authentication(login_dto: LoginDTO):
-    user = Log.query.filter_by(first_name=login_dto.first_name).first()
+    user = User.query.filter_by(first_name=login_dto.first_name).first()
 
     if user and user.password == login_dto.password:
         token =create_access_token(identity=user.to_dict(), expires_delta=timedelta(days=1))

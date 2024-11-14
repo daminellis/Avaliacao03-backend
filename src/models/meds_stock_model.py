@@ -1,5 +1,5 @@
 from database.db import db
-class Log(db.Model):
+class MedStock(db.Model):
     __tablename__ = 'med_stock'
 
     # Definição das colunas

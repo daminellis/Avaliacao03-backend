@@ -1,5 +1,5 @@
 from database.db import db
-class Log(db.Model):
+class User(db.Model):
     __tablename__ = 'user'
 
     # Definição das colunas
