@@ -7,6 +7,10 @@ from sqlalchemy.sql import text
 from repository.meds_stock.create_meds_stock_repository import MedsStockRepository
 from repository.meds_stock.update_meds_stock_repository import UpdateMedsStockRepository
 
+#DTO
+from dtos.responses.success.success_dto import SuccessDTO
+from dtos.responses.error.error_dto import ErrorDTO
+
 def get_all_meds_stock():
     try:
         with db.engine.connect() as connection:
@@ -17,15 +21,9 @@ def get_all_meds_stock():
         meds_stock_list = [dict(row._mapping) for row in stock]
 
         if meds_stock_list:
-            return jsonify({
-                "success": True,
-                "meds_stock": meds_stock_list
-            }), 200
+            return jsonify(SuccessDTO(code=200, data=meds_stock_list)), 200
         else:
-            return jsonify({
-                "success": False,
-                "error": "Estoque de medicamentos não encontrado"
-            }), 404
+            return jsonify(ErrorDTO(code=404, message="Nenhum medicamento cadastrado no estoque", details=['path: GET /meds_stock'])), 404
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -39,15 +37,9 @@ def get_meds_stock_by_id(id):
             med = result.fetchone()
 
         if med:
-            return jsonify({
-                "success": True,
-                "meds_stock": dict(med._mapping)
-            }), 200
+            return jsonify(SuccessDTO(code=200, data=med)), 200
         else:
-            return jsonify({
-                "success": False,
-                "error": "Medicamento não encontrado no estoque"
-            }), 404
+            return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: GET /meds_stock/{id}'])), 404
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -67,10 +59,7 @@ def create_meds_stock(create_meds_stock_repository: MedsStockRepository):
                 "user_id": create_meds_stock_repository.user_id
             })
             connection.commit()
-            return jsonify({
-                "success": True,
-                "message": "Medicamento adicionado ao estoque"
-            }), 201
+            return jsonify(SuccessDTO(code=201, message="Medicamento adicionado ao estoque.")), 201
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -92,18 +81,12 @@ def update_meds_stock(id, update_meds_stock_repository: UpdateMedsStockRepositor
             })
 
             if result.rowcount == 0:
-                return jsonify({
-                    "success": False,
-                    "error": "Medicamento não encontrado"
-                }), 404
-            
+                return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: PUT /meds_stock/{id}'])), 404
+
             connection.commit()
 
-            return jsonify({
-                "success": True,
-                "message": "Medicamento atualizado"
-            }), 200
-
+            return jsonify(SuccessDTO(code=200, message="Medicamento atualizado")), 200
+        
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         return jsonify({'error': error}), 500
@@ -115,16 +98,10 @@ def delete_meds_stock(id):
             result= connection.execute(sql, {'id': id})
             
             if result.rowcount == 0:
-                return jsonify({
-                    "success": False,
-                    "error": "Medicamento não encontrado"
-                }), 404
+                return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: DELETE /meds_stock/{id}'])), 404
 
             connection.commit()
-            return jsonify({
-                "success": True,
-                "message": "Medicamento deletado"
-            }), 200
+            return jsonify(SuccessDTO(code=200, message="Medicamento deletado")), 200
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])

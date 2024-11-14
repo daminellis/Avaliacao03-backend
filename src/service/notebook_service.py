@@ -7,6 +7,10 @@ from sqlalchemy.sql import text
 from repository.notebook.create_notebook_repository import NotebookRepository
 from repository.notebook.update_notebook_repository import UpdateNotebookRepository
 
+#DTO
+from dtos.responses.success.success_dto import SuccessDTO
+from dtos.responses.error.error_dto import ErrorDTO
+
 def get_all_notebooks():
     try:
         with db.engine.connect() as connection:
@@ -17,15 +21,9 @@ def get_all_notebooks():
             service_orders_list = [dict(row._mapping) for row in notes]
 
             if service_orders_list:
-                return jsonify({
-                    "success": True,
-                    "notebooks": service_orders_list
-                }), 200
+                return jsonify(SuccessDTO(code=200, data=service_orders_list)), 200
             else:
-                return jsonify({
-                    "success": False,
-                    "error": "Notas não encontradas ou nenhuma nota cadastrada"
-                }), 404
+                return jsonify(ErrorDTO(code=404, message="Notas não encontradas ou nenhuma nota cadastrada", details=['path: GET /notebooks'])), 404
             
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -41,16 +39,10 @@ def get_notebook_by_id(id):
             note = result.fetchone()
 
             if note:
-                return jsonify({
-                    "success": True,
-                    "notebook": dict(note._mapping)
-                }), 200
+                return jsonify(SuccessDTO(code=200, data=note)), 200
             else:
-                return jsonify({
-                    "success": False,
-                    "error": "Nota não encontrada ou não cadastrada"
-                }), 404
-        
+                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: GET /notebooks/{id}'])), 404
+            
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         return jsonify({'error': error}), 500
@@ -77,10 +69,7 @@ def create_notebook(create_notebook_repository: NotebookRepository):
             })
             connection.commit()
 
-            return jsonify({
-                "success": True,
-                "message": "Nota criada com sucesso"
-            }), 201
+            return jsonify(SuccessDTO(code=200, message="Nota adicionada com sucesso")), 200
         
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -109,17 +98,11 @@ def update_notebook(id, update_notebook_repository: UpdateNotebookRepository):
             })
 
             if result.rowcount == 0:
-                return jsonify({
-                    "success": False,
-                    "error": "Nota não encontrada"
-                }), 404
+                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: PUT /notebooks/{id}'])), 404
 
             connection.commit()
 
-            return jsonify({
-                "success": True,
-                "message": "Nota atualizada com sucesso"
-            }), 200
+            return jsonify(SuccessDTO(code=200, message="Nota atualizada com sucesso")), 200
         
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -133,18 +116,12 @@ def delete_notebook(id):
             result= connection.execute(sql, {'id':id})
             
             if result.rowcount == 0:
-                return jsonify({
-                    "success": False,
-                    "error": "Nota não encontrada"
-                }), 404
+                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: DELETE /notebooks/{id}'])), 404
             
             connection.commit()
 
-            return jsonify({
-                "success": True,
-                "message": "Nota deletada com sucesso"
-            }), 200
-        
+            return jsonify(SuccessDTO(code=200, message="Nota deletada com sucesso")), 200
+                
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         return jsonify({'error': error}), 500
