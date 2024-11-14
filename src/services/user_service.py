@@ -4,11 +4,12 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import text
 
 #Repository
-from repositories.user.create_user_repository import UserRepository
-from repositories.user.update_user_repository import UpdateUserRepository
-
+# from repositories.user.create_user_repository import UserRepository
+# from repositories.user.update_user_repository import UpdateUserRepository
 
 #DTO
+from dtos.user.create_user_dto import CreateUserDTO
+from dtos.user.update_user_dto import UpdateUserDTO
 from dtos.responses.success.success_dto import SuccessDTO
 from dtos.responses.error.error_dto import ErrorDTO
 
@@ -64,15 +65,15 @@ def get_user_by_first_name(first_name):
         return jsonify({'error': error}), 500
 
 
-def create_user(create_user_repository: UserRepository):
+def create_user(create_user_dto: CreateUserDTO):
     try:
         with db.engine.connect() as connection:
             sql = text('INSERT INTO user (first_name, last_name, age, password) VALUES (:first_name, :last_name, :age, :password)')
             connection.execute(sql, {
-                'first_name': create_user_repository.first_name,
-                'last_name': create_user_repository.last_name,
-                'age': create_user_repository.age,
-                'password': create_user_repository.password
+                'first_name': create_user_dto.first_name,
+                'last_name': create_user_dto.last_name,
+                'age': create_user_dto.age,
+                'password': create_user_dto.password
             })
             connection.commit()
 
@@ -83,17 +84,17 @@ def create_user(create_user_repository: UserRepository):
         return jsonify({'error': error}), 500
     
 
-def update_user(id, update_user_repository: UpdateUserRepository):
+def update_user(id, update_user_dto: UpdateUserDTO):
     try:
         with db.engine.connect() as connection:
 
             sql = text('UPDATE user SET first_name = :first_name, last_name = :last_name, age = :age, password = :password WHERE id = :id')
             result= connection.execute(sql, {
                 'id': id,
-                'first_name': update_user_repository.first_name,
-                'last_name': update_user_repository.last_name,
-                'age': update_user_repository.age,
-                'password': update_user_repository.password
+                'first_name': update_user_dto.first_name,
+                'last_name': update_user_dto.last_name,
+                'age': update_user_dto.age,
+                'password': update_user_dto.password
             })
 
             if result.rowcount == 0:

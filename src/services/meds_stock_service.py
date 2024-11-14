@@ -4,10 +4,12 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import text
 
 #Repository
-from repositories.meds_stock.create_meds_stock_repository import MedsStockRepository
-from repositories.meds_stock.update_meds_stock_repository import UpdateMedsStockRepository
+# from repositories.meds_stock.create_meds_stock_repository import MedsStockRepository
+# from repositories.meds_stock.update_meds_stock_repository import UpdateMedsStockRepository
 
 #DTO
+from dtos.meds_stock.create_med_stock_dto import CreateMedStockDTO
+from dtos.meds_stock.update_med_stock_dto import UpdateMedStockDTO
 from dtos.responses.success.success_dto import SuccessDTO
 from dtos.responses.error.error_dto import ErrorDTO
 
@@ -46,17 +48,17 @@ def get_meds_stock_by_id(id):
         return jsonify({'error': error}), 500
     
 
-def create_meds_stock(create_meds_stock_repository: MedsStockRepository):
+def create_meds_stock(create_meds_stock_dto: CreateMedStockDTO):
     try:
         with db.engine.connect() as connection:
             sql = text('INSERT INTO med_stock (med_name, med_qtd, med_val, med_desc, med_type, user_id) VALUES (:med_name, :med_qtd, :med_val, :med_desc, :med_type, :user_id)')
             connection.execute(sql, {
-                "med_name": create_meds_stock_repository.med_name,
-                "med_qtd": create_meds_stock_repository.med_qtd,
-                "med_val": create_meds_stock_repository.med_val,
-                "med_desc": create_meds_stock_repository.med_desc,
-                "med_type": create_meds_stock_repository.med_type,
-                "user_id": create_meds_stock_repository.user_id
+                "med_name": create_meds_stock_dto.med_name,
+                "med_qtd": create_meds_stock_dto.med_qtd,
+                "med_val": create_meds_stock_dto.med_val,
+                "med_desc": create_meds_stock_dto.med_desc,
+                "med_type": create_meds_stock_dto.med_type,
+                "user_id": create_meds_stock_dto.user_id
             })
             connection.commit()
             return jsonify(SuccessDTO(code=201, message="Medicamento adicionado ao estoque.")), 201
@@ -66,18 +68,18 @@ def create_meds_stock(create_meds_stock_repository: MedsStockRepository):
         return jsonify({'error': error}), 500
 
 
-def update_meds_stock(id, update_meds_stock_repository: UpdateMedsStockRepository):
+def update_meds_stock(id, update_meds_stock_dto: UpdateMedStockDTO):
     try:
         with db.engine.connect() as connection:
             sql = text('UPDATE med_stock SET med_name = :med_name, med_qtd = :med_qtd, med_val = :med_val, med_desc = :med_desc, med_type = :med_type, user_id = :user_id WHERE id = :id')
             result= connection.execute(sql, {
                 "id": id,
-                "med_name": update_meds_stock_repository.med_name,
-                "med_qtd": update_meds_stock_repository.med_qtd,
-                "med_val": update_meds_stock_repository.med_val,
-                "med_desc": update_meds_stock_repository.med_desc,
-                "med_type": update_meds_stock_repository.med_type,
-                "user_id": update_meds_stock_repository.user_id
+                "med_name": update_meds_stock_dto.med_name,
+                "med_qtd": update_meds_stock_dto.med_qtd,
+                "med_val": update_meds_stock_dto.med_val,
+                "med_desc": update_meds_stock_dto.med_desc,
+                "med_type": update_meds_stock_dto.med_type,
+                "user_id": update_meds_stock_dto.user_id
             })
 
             if result.rowcount == 0:
