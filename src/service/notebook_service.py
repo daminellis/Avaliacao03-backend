@@ -41,7 +41,7 @@ def get_notebook_by_id(id):
             if note:
                 return jsonify(SuccessDTO(code=200, data=note)), 200
             else:
-                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: GET /notebooks/{id}'])), 404
+                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: GET /notebooks/<:id>'])), 404
             
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -98,7 +98,7 @@ def update_notebook(id, update_notebook_repository: UpdateNotebookRepository):
             })
 
             if result.rowcount == 0:
-                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: PUT /notebooks/{id}'])), 404
+                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: PUT /notebooks/<:id>'])), 404
 
             connection.commit()
 
@@ -116,7 +116,7 @@ def delete_notebook(id):
             result= connection.execute(sql, {'id':id})
             
             if result.rowcount == 0:
-                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: DELETE /notebooks/{id}'])), 404
+                return jsonify(ErrorDTO(code=404, message="Nota não encontrada", details=['path: DELETE /notebooks/<:id>'])), 404
             
             connection.commit()
 

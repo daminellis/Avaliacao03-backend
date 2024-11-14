@@ -39,7 +39,7 @@ def get_meds_stock_by_id(id):
         if med:
             return jsonify(SuccessDTO(code=200, data=med)), 200
         else:
-            return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: GET /meds_stock/{id}'])), 404
+            return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: GET /meds_stock/<:id>'])), 404
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
@@ -81,7 +81,7 @@ def update_meds_stock(id, update_meds_stock_repository: UpdateMedsStockRepositor
             })
 
             if result.rowcount == 0:
-                return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: PUT /meds_stock/{id}'])), 404
+                return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: PUT /meds_stock/<:id>'])), 404
 
             connection.commit()
 
@@ -98,7 +98,7 @@ def delete_meds_stock(id):
             result= connection.execute(sql, {'id': id})
             
             if result.rowcount == 0:
-                return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: DELETE /meds_stock/{id}'])), 404
+                return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: DELETE /meds_stock/<:id>'])), 404
 
             connection.commit()
             return jsonify(SuccessDTO(code=200, message="Medicamento deletado")), 200
