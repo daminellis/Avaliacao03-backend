@@ -28,7 +28,7 @@ def users(app):
     @app.route('/user', methods=['POST'])
     def create_user_route():
         data = request.get_json()
-        create_user_dto = CreateUserDTO(data['first_name'], data['last_name'], data['age'], data['password'])
+        create_user_dto = CreateUserDTO()
         return create_user(create_user_dto)
 
     @app.route('/users/<int:id>', methods=['PATCH'])

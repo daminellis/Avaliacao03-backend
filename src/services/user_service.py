@@ -29,7 +29,7 @@ def get_all_users():
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
-        return jsonify({'error': error}), 500
+        return jsonify(ErrorDTO(code= 500, message= error, details=['path: GET /users'])), 500
 
 
 def get_user_by_id(id):
@@ -46,7 +46,7 @@ def get_user_by_id(id):
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
-        return jsonify({'error': error}), 500
+        return jsonify(ErrorDTO(code=500, message= error, details=['GET /users/<:id>'])), 500
     
 def get_user_by_first_name(first_name):
     try:
@@ -81,7 +81,7 @@ def create_user(create_user_dto: CreateUserDTO):
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
-        return jsonify({'error': error}), 500
+        return jsonify(ErrorDTO(code= 500, message= error, details=['POST /create'])), 500
     
 
 def update_user(id, update_user_dto: UpdateUserDTO):
@@ -105,7 +105,7 @@ def update_user(id, update_user_dto: UpdateUserDTO):
     
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
-        return jsonify({'error': error}), 500
+        return jsonify(ErrorDTO(code=404, message= error, details=['path: PATCH /users/<:id>'])), 500
     
     
 def delete_user(id):
@@ -123,4 +123,4 @@ def delete_user(id):
 
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
-        return jsonify({'error': error}), 500
+        return jsonify(ErrorDTO(code= 500, message= error, details= ['DELETE /users/<:id>'])), 500
