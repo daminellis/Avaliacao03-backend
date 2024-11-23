@@ -2,7 +2,7 @@ from flask import jsonify
 from database.db import db
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import text
-
+from utils.functions import dateformatter
 #Repository
 # from repositories.meds_stock.create_meds_stock_repository import MedsStockRepository
 # from repositories.meds_stock.update_meds_stock_repository import UpdateMedsStockRepository
@@ -55,7 +55,7 @@ def create_meds_stock(create_meds_stock_dto: CreateMedStockDTO):
             connection.execute(sql, {
                 "med_name": create_meds_stock_dto.med_name,
                 "med_qtd": create_meds_stock_dto.med_qtd,
-                "med_val": create_meds_stock_dto.med_val,
+                "med_val": dateformatter.date_formatter(create_meds_stock_dto.med_val),
                 "med_desc": create_meds_stock_dto.med_desc,
                 "med_type": create_meds_stock_dto.med_type,
                 "user_id": create_meds_stock_dto.user_id
@@ -81,7 +81,7 @@ def update_meds_stock(id, update_meds_stock_dto: UpdateMedStockDTO):
                 "med_type": update_meds_stock_dto.med_type,
                 "user_id": update_meds_stock_dto.user_id
             })
-
+    
             if result.rowcount == 0:
                 return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: PUT /meds_stock/<:id>'])), 404
 
