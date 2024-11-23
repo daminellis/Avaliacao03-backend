@@ -33,24 +33,17 @@ Para executar o projeto:
 
 #### 1. Cadastro de Usuário
 > * Cada usuário deve ter um perfil único no sistema.
-> * O usuário precisa preencher informações básicas, como nome, idade e condições de saúde relevantes, no cadastro.
+> * O usuário precisa preencher informações básicas, como nome, sobrenome, idade e senha no cadastro.
 
-#### 2. Controle de Estoque de Medicamentos
-> * O sistema deve permitir o cadastro de medicamentos com nome, descrição, tipo e quantidade inicial.
-> * Ao registrar uma nova dose tomada, a quantidade no estoque deve ser atualizada automaticamente.
-> * Quando a quantidade de um medicamento atingir um valor mínimo (configurável), o sistema deve enviar uma notificação de alerta para o usuário.
-
-#### 3. Lembretes de Medicamento
-> * O sistema deve enviar notificações no horário configurado para lembrar o usuário de tomar a medicação.
-> * Se o usuário não marcar a dose como tomada até um certo tempo após o lembrete, o sistema pode enviar uma notificação de atraso.
-
-#### 4. Validade dos Medicamentos
+#### 2. Estoque de Medicamentos
+> * O sistema deve permitir o cadastro de medicamentos com nome, descrição, tipo, quantidade total.
 > * Ao cadastrar um medicamento, o usuário deve inserir a data de validade do produto.
-> * O sistema deve alertar o usuário quando o medicamento estiver próximo de vencer.
+> * Não podem ser cadastrados no estoquem medicamentos cujo a validade esteja fora do prazo.
 
-#### 5. Controle de Quantidade por Dose
-> * Ao criar um lembrete, o usuário deve definir a quantidade de medicamento a ser tomada em cada dose.
-> * Cada vez que uma dose é marcada como tomada, essa quantidade deve ser subtraída automaticamente do estoque.
+#### 3. Notas
+> * Ao registrar uma nova nota, a dose tomada deve ser indicada pra que a quantidade no estoque seja atualizada automaticamente.
+> * O cadastro das notas deve conter campos essenciais como: título, estoque referenciado, descrição, método de uso, tipo, frequ6encia, qtd tomada e total, início e término do trataento no dia ou mês/ano e observação.
+> * O sistema deve alertar o usuário quando o medicamento estiver próximo de vencer.
 
 ## Rotas :milky_way:
 
