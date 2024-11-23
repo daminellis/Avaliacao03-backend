@@ -2,7 +2,9 @@ from flask import jsonify
 from database.db import db
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import text
-from utils.functions import dateformatter
+from utils.functions.dateformatter import date_formatter
+from datetime import datetime
+
 #Repository
 # from repositories.meds_stock.create_meds_stock_repository import MedsStockRepository
 # from repositories.meds_stock.update_meds_stock_repository import UpdateMedsStockRepository
@@ -55,11 +57,18 @@ def create_meds_stock(create_meds_stock_dto: CreateMedStockDTO):
             connection.execute(sql, {
                 "med_name": create_meds_stock_dto.med_name,
                 "med_qtd": create_meds_stock_dto.med_qtd,
-                "med_val": dateformatter.date_formatter(create_meds_stock_dto.med_val),
+                "med_val": date_formatter(create_meds_stock_dto.med_val),
                 "med_desc": create_meds_stock_dto.med_desc,
                 "med_type": create_meds_stock_dto.med_type,
                 "user_id": create_meds_stock_dto.user_id
             })
+
+            current_date = datetime.now().date()
+            med_val_date = datetime.strptime(create_meds_stock_dto.med_val, '%d/%m/%Y').date()
+
+            if med_val_date < current_date:
+                return jsonify(ErrorDTO(code=400, message="Data de validade inválida. Medicações vencidas não podem ser cadastradas!", details=['path: POST /meds_stock'])), 400
+
             connection.commit()
             return jsonify(SuccessDTO(code=201, message="Medicamento adicionado ao estoque.")), 201
 
@@ -76,11 +85,19 @@ def update_meds_stock(id, update_meds_stock_dto: UpdateMedStockDTO):
                 "id": id,
                 "med_name": update_meds_stock_dto.med_name,
                 "med_qtd": update_meds_stock_dto.med_qtd,
-                "med_val": update_meds_stock_dto.med_val,
+                "med_val": date_formatter(update_meds_stock_dto.med_val),
                 "med_desc": update_meds_stock_dto.med_desc,
                 "med_type": update_meds_stock_dto.med_type,
                 "user_id": update_meds_stock_dto.user_id
             })
+
+            current_date = datetime.now().date()
+
+            med_val_date = datetime.strptime(update_meds_stock_dto.med_val, '%d/%m/%Y').date()
+
+            if med_val_date < current_date:
+                return jsonify(ErrorDTO(code=400, message="Data de validade inválida. Medicações vencidas não podem ser atualizadas!", details=['path: PUT /meds_stock/<:id>'])), 400
+
     
             if result.rowcount == 0:
                 return jsonify(ErrorDTO(code=404, message="Medicamento não encontrado", details=['path: PUT /meds_stock/<:id>'])), 404

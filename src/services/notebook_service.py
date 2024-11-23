@@ -2,6 +2,7 @@ from flask import jsonify
 from database.db import db
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.sql import text
+from utils.functions.dateformatter import date_formatter
 
 #Repository
 # from repositories.notebook.create_notebook_repository import NotebookRepository
@@ -63,8 +64,8 @@ def create_notebook(create_notebook_dto: CreateNotebookDTO):
                 "med_freq": create_notebook_dto.med_freq,
                 "qtd_taken": create_notebook_dto.qtd_taken,
                 "qtd_total": create_notebook_dto.qtd_total,
-                "init_schedule": create_notebook_dto.init_schedule,
-                "end_schedule": create_notebook_dto.end_schedule,
+                "init_schedule": date_formatter(create_notebook_dto.init_schedule),
+                "end_schedule": date_formatter(create_notebook_dto.end_schedule),
                 "status": create_notebook_dto.status,
                 "obs": create_notebook_dto.obs,
                 "user_id": create_notebook_dto.user_id
@@ -92,8 +93,8 @@ def update_notebook(id, update_notebook_dto: UpdateNotebookDTO):
                 "med_freq": update_notebook_dto.med_freq,
                 "qtd_taken": update_notebook_dto.qtd_taken,
                 "qtd_total": update_notebook_dto.qtd_total,
-                "init_schedule": update_notebook_dto.init_schedule,
-                "end_schedule": update_notebook_dto.end_schedule,
+                "init_schedule": date_formatter(update_notebook_dto.init_schedule),
+                "end_schedule": date_formatter(update_notebook_dto.end_schedule),
                 "status": update_notebook_dto.status,
                 "obs": update_notebook_dto.obs,
                 "user_id": update_notebook_dto.user_id
