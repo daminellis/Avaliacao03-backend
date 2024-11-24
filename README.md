@@ -43,7 +43,7 @@ Para executar o projeto:
 #### 3. Notas
 > * Ao registrar uma nova nota, a dose tomada deve ser indicada pra que a quantidade no estoque seja atualizada automaticamente.
 > * O cadastro das notas deve conter campos essenciais como: título, estoque referenciado, descrição, método de uso, tipo, frequ6encia, qtd tomada e total, início e término do trataento no dia ou mês/ano e observação.
-> * A quantidade total de remédios cadastrada em cada nota não deve ser diferente da quantidade total de remédios do esqtoque referenciado.
+> * A quantidade total de remédios cadastrada em cada nota não deve ser diferente da quantidade total de remédios do estoque referenciado.
 
 ## Rotas :milky_way:
 
