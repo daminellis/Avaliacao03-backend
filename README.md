@@ -44,6 +44,8 @@ Para executar o projeto:
 > * Ao registrar uma nova nota, a dose tomada deve ser indicada pra que a quantidade no estoque seja atualizada automaticamente.
 > * O cadastro das notas deve conter campos essenciais como: título, estoque referenciado, descrição, método de uso, tipo, frequ6encia, qtd tomada e total, início e término do trataento no dia ou mês/ano e observação.
 > * A quantidade total de remédios cadastrada em cada nota não deve ser diferente da quantidade total de remédios do estoque referenciado.
+> * Uma nota não deve poder ser cadastrada se no momento do cadastro a validade do medicamento estiver vencida.
+> * Uma nota não deve poder ser cadastrada se a data de início ou fim passarem da validade do medicamento.
 
 ## Rotas :milky_way:
 
