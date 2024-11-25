@@ -12,7 +12,11 @@ class App:
         self.app = Flask(__name__)
         self.app.config['SECRET_KEY'] = f'{os.getenv("JWT_SECRET")}' #Mudar no .env de acordo com sua chave secreta
         CORS(self.app)
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}" #Mudar no .env de acordo com suas credenciais
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = (
+            f"mysql+pymysql://{os.getenv('DB_USERNAME')}:"
+            f"{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:"
+            f"{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+        )  # Mudar no .env de acordo com suas credenciais
         self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         db.init_app(self.app)
         default_routes(self.app)

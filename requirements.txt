@@ -3,5 +3,5 @@ Flask-SQLAlchemy
 python-dotenv
 flask-cors
 flask
-Flask-JWT
-flask_restplus
+Flask-JWT-Extended==4.4.4
+PyJWT==2.4.0
